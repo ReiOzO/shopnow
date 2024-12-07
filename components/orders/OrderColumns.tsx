@@ -2,6 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
+import { useState } from "react";
+import StatusSelect from "../custom ui/StatusSelect";
 
 export const columns: ColumnDef<OrderColumnType>[] = [
     {
@@ -37,4 +39,32 @@ export const columns: ColumnDef<OrderColumnType>[] = [
         accessorKey: "createdAt",
         header: "Created At",
     },
+    {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => {
+            const [status, setStatus] = useState<string>(row.original.status || "Đang giao");
+
+            const handleChange = async (newStatus: string) => {
+                setStatus(newStatus);
+                try {
+                    await fetch(`/api/orders/${row.original._id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: newStatus }),
+                    });
+                    console.log(`Status for order ${row.original._id} updated to ${newStatus}`);
+                } catch (error) {
+                    console.error("Failed to update status:", error);
+                }
+            };
+
+            return (
+                <StatusSelect
+                    value={status}
+                    onChange={handleChange}
+                />
+            );
+        },
+    }
 ];

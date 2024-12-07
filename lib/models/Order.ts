@@ -22,6 +22,12 @@ const orderSchema = new mongoose.Schema({
     },
     shippingRate: String,
     totalAmount: Number,
+    status: {
+        type: String,
+        enum: ["Đang giao", "Đã giao", "Hủy đơn"], // Các giá trị cho phép
+        default: "Đang giao", // Giá trị mặc định
+        required: true, // Đảm bảo luôn có trường này
+    },
     createdAt: {
         type: Date,
         default: Date.now,

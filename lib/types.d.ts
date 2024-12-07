@@ -6,6 +6,13 @@ type CollectionType = {
   products: ProductType[];
 }
 
+type ArticleType = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
 type ProductType = {
   _id: string;
   title: string;
@@ -28,6 +35,7 @@ type OrderColumnType = {
   products: number;
   totalAmount: number;
   createdAt: string;
+  status: "Đang giao" | "Đã giao" | "Hủy đơn";
 }
 
 type OrderItemType = {
@@ -41,4 +49,13 @@ type CustomerType = {
   clerkId: string;
   name: string;
   email: string;
+}
+
+type ReviewType = {
+  _id: string;
+  customer: string;
+  product: ProductType;
+  rating: number;
+  comment: string;
+  createdAt: Date;
 }
